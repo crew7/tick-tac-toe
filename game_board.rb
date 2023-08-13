@@ -20,4 +20,7 @@ class GameBoard
     puts "#{'-' * 4}+#{'-' * 3}+#{'-' * 4}"
   end
   
+  def screen_clear
+    
+  end
 end
