@@ -6,8 +6,8 @@ require_relative 'player'
 game_board = GameBoard.new
 game_board.generate_latest_game_board
 
-player_data = {}
-player_data = fetch_player_one_data(player_data)
+
+player_one_pii = Player.fetch_player_one_pii
 GameBoard.screen_clear
 game_board.generate_latest_game_board
-player_data = fetch_player_two_data(player_data)
+player_two_pii = Player.fetch_player_two_pii(player_one_pii)
