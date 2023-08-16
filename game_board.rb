@@ -2,7 +2,7 @@
 
 # Creates and updates the game board
 class GameBoard
-  def generate_game_board
+  def generate_latest_game_board
     create_outer_row
     puts '| x | x | x |'
     create_inner_row
@@ -19,8 +19,8 @@ class GameBoard
   def create_inner_row
     puts "#{'-' * 4}+#{'-' * 3}+#{'-' * 4}"
   end
-  
-  def screen_clear
-    
+
+  def self.screen_clear
+    puts "\e[H\e[2J"
   end
 end
