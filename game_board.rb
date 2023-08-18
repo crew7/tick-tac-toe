@@ -3,25 +3,17 @@
 # Creates, keeps track, and updates the game board
 class GameBoard
   def initialize
-    self.position_one = '1'
-    self.position_two = '2'
-    self.position_three = '3'
-    self.position_four = '4'
-    self.position_five = '5'
-    self.position_six = '6'
-    self.position_seven = '7'
-    self.position_eight = '8'
-    self.position_nine = '9'
+    self.positions = (1..9).to_a
   end
 
   def generate_latest_game_board
     print "\n"
     create_outer_row
-    puts "| #{position_one} | #{position_two} | #{position_three} |"
+    puts "| #{positions[0]} | #{positions[1]} | #{positions[2]} |"
     create_inner_row
-    puts "| #{position_four} | #{position_five} | #{position_six} |"
+    puts "| #{positions[3]} | #{positions[4]} | #{positions[5]} |"
     create_inner_row
-    puts "| #{position_seven} | #{position_eight} | #{position_nine} |"
+    puts "| #{positions[6]} | #{positions[7]} | #{positions[8]} |"
     create_outer_row
   end
 
@@ -33,11 +25,6 @@ class GameBoard
     puts "#{'-' * 4}+#{'-' * 3}+#{'-' * 4}"
   end
 
-  def retrieve_player_pii(player_one_pii, player_two_pii)
-    self.player_one_pii = player_one_pii
-    self.player_two_pii = player_two_pii
-  end
-
   def refresh_board
     screen_clear
     generate_latest_game_board
@@ -47,14 +34,13 @@ class GameBoard
     puts "\e[H\e[2J"
   end
 
-  def receive_placement_request(value)
-    
+  def receive_placement_request(request_data)
+    request_piece = request_data[:player_piece]
+    request_placement_number = request_data[:placement_request].to_i - 1
+    positions[request_placement_number] = request_piece
   end
 
   private
 
-  attr_accessor :position_one, :position_two, :position_three,
-                :position_four, :position_five, :position_six,
-                :position_seven, :position_eight, :position_nine,
-                :player_one_pii, :player_two_pii
+  attr_accessor :player_one_pii, :player_two_pii, :positions
 end

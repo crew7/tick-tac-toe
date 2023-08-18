@@ -4,12 +4,14 @@ class Player
     def initialize(player_pii)
         @player_name = player_pii[:player_name]
         @player_piece = player_pii[:player_piece]
+        @placement_request_data = player_pii
     end
 
     def action
         puts "#{player_name}, enter an input of 1-9 to place your '#{player_piece.upcase}' piece.\n\n"
         placement_request = gets.chomp.downcase
-        placement_request
+        placement_request_data[:placement_request] = placement_request
+        placement_request_data
     end
 
     def self.fetch_player_one_pii
@@ -55,6 +57,6 @@ class Player
 
     private
 
-    attr_accessor :player_name, :player_piece
+    attr_accessor :player_name, :player_piece, :placement_request_data
 end
 
