@@ -9,8 +9,13 @@ game_board.refresh_board
 player_one_pii = Player.fetch_player_one_pii
 game_board.refresh_board
 player_two_pii = Player.fetch_player_two_pii(player_one_pii)
+
 player_one = Player.new(player_one_pii)
 player_two = Player.new(player_two_pii)
+sleep(3)
 
-p player_one
-p player_two
+game_board.retrieve_player_pii(player_one_pii, player_two_pii)
+
+game_board.refresh_board
+player_one_placement_request = player_one.action
+game_board.receive_placement_request(player_one_placement_request)

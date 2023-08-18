@@ -6,15 +6,19 @@ class Player
         @player_piece = player_pii[:player_piece]
     end
 
-
+    def action
+        puts "#{player_name}, enter an input of 1-9 to place your '#{player_piece.upcase}' piece.\n\n"
+        placement_request = gets.chomp.downcase
+        placement_request
+    end
 
     def self.fetch_player_one_pii
         player_one_pii = {}
         puts "The second player gets the leftover piece."
-        puts 'What is the first players name?'
+        puts "What is the first players name?\n\n"
         player_one_name = gets.chomp.capitalize
         while true
-          print "\nWill you be playing as 'X' or 'O', #{player_one_name}?\n"
+          print "\nWill you be playing as 'X' or 'O', #{player_one_name}?\n\n"
           player_one_piece = gets.chomp.downcase
           if player_one_piece.eql?('x') || player_one_piece.eql?('o')
             break
@@ -31,7 +35,7 @@ class Player
         player_one_name = player_one_pii[:player_name]
         player_one_piece = player_one_pii[:player_piece]
     
-        puts "\nWhat is the second players name?"
+        puts "\nWhat is the second players name?\n\n"
         player_two_name = gets.chomp.capitalize
         case player_one_piece
         when 'x'
@@ -48,5 +52,9 @@ class Player
     
         player_two_pii
     end
+
+    private
+
+    attr_accessor :player_name, :player_piece
 end
 
