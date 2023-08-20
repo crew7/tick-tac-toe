@@ -35,12 +35,20 @@ class GameBoard
   end
 
   def receive_placement_request(request_data)
-    request_piece = request_data[:player_piece]
-    request_placement_number = request_data[:placement_request].to_i - 1
-    positions[request_placement_number] = request_piece
+    requested_piece = request_data[:player_piece]
+    requested_number = request_data[:placement_request].to_i - 1
+    target_location = positions[requested_number]
+
+    if target_location != 'x' || target_location != 'o'
+      positions[requested_number] = requested_piece
+      true
+    else
+      puts "This target is already taken. Try again.\n\n"
+      false
+    end
   end
 
   private
 
-  attr_accessor :player_one_pii, :player_two_pii, :positions
+  attr_accessor :positions
 end

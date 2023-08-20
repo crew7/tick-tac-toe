@@ -13,8 +13,12 @@ player_two_pii = Player.fetch_player_two_pii(player_one_pii)
 player_one = Player.new(player_one_pii)
 player_two = Player.new(player_two_pii)
 
-
 game_board.refresh_board
-player_one_placement_request = player_one.action
-game_board.receive_placement_request(player_one_placement_request)
+
+loop do
+  player_one_placement_request = player_one.action
+  result = game_board.receive_placement_request(player_one_placement_request)
+  break if result == true
+end
+
 game_board.refresh_board

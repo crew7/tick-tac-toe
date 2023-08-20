@@ -9,7 +9,14 @@ class Player
 
     def action
         puts "#{player_name}, enter an input of 1-9 to place your '#{player_piece.upcase}' piece.\n\n"
-        placement_request = gets.chomp.downcase
+        while true
+            placement_request = gets.chomp.downcase
+            if (placement_request.to_i.is_a? Numeric) && (placement_request.to_i.between?(1,9))
+              break  
+            else
+              puts "\nYou didn't enter a number in the range of 1-9. Please try again.\n\n"
+            end
+        end
         placement_request_data[:placement_request] = placement_request
         placement_request_data
     end
