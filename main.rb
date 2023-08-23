@@ -22,6 +22,7 @@ loop do
     break if result == true
   end
   game_board.refresh_board
+
   loop do
     player_two_placement_request = player_two.action
     result = game_board.receive_placement_request(player_two_placement_request)

@@ -6,6 +6,57 @@ class GameBoard
     self.positions = (1..9).to_a
   end
 
+  def check_win_con(piece)
+    # I check each win con here via loops vertically, horizontally and diagonally.
+    check_column_win_con(piece) || check_row_win_con(piece) || check_diagonal_win_con(piece)
+  end
+
+  def check_diagonal_win_con(piece)
+    left_diagonal = 0
+    winner = true
+    winner = false unless positions[left_diagonal] == piece
+    2.times do
+      left_diagonal += 4
+      winner = false unless positions[left_diagonal] == piece
+    end
+    return winner if winner == true
+
+    right_diagonal = 2
+    winner = true
+    winner = false unless positions[right_diagonal] == piece
+    2.times do
+      right_diagonal += 2
+      winner = false unless positions[right_diagonal] == piece
+    end
+    winner
+  end
+
+  def check_row_win_con(piece)
+    winner = true
+    [0, 3, 6].each do |row|
+      winner = false unless positions[row] == piece
+      2.times do
+        row += 1
+        winner = false unless positions[row] == piece
+      end
+      return true if winner == true
+    end
+    winner
+  end
+
+  def check_column_win_con(piece)
+    winner = true
+    (0..2).to_a.each do |column|
+      winner = false unless positions[column] == piece
+      2.times do
+        column += 3
+        winner = false unless positions[column] == piece
+      end
+      return true if winner == true
+    end
+    winner
+  end
+
   def generate_latest_game_board
     print "\n"
     create_outer_row
@@ -35,7 +86,6 @@ class GameBoard
   end
 
   def receive_placement_request(request_data)
-    requested_name = request_data[:player_name]
     requested_piece = request_data[:player_piece]
     requested_number = request_data[:placement_request]
     requested_index = request_data[:placement_request].to_i - 1
@@ -43,6 +93,7 @@ class GameBoard
 
     if target_location != 'x' && target_location != 'o'
       positions[requested_index] = requested_piece
+      check_win_con(requested_piece)
       true
     else
       refresh_board

@@ -1,4 +1,8 @@
-positions = [1,2,3]
-target = positions[0]
 
-puts target
+
+3.times do
+    a = true
+    a = false
+end
+
+p a
