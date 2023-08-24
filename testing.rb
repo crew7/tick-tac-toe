@@ -1,8 +1,6 @@
+p true.kind_of? Object
 
+a = {a: "a"}
 
-3.times do
-    a = true
-    a = false
-end
-
-p a
+p a.class
+p a.instance_of? Object 

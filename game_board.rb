@@ -93,7 +93,8 @@ class GameBoard
 
     if target_location != 'x' && target_location != 'o'
       positions[requested_index] = requested_piece
-      check_win_con(requested_piece)
+      return request_data if check_win_con(requested_piece)
+
       true
     else
       refresh_board
