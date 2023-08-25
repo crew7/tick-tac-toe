@@ -1,6 +1,13 @@
-p true.kind_of? Object
+def check_column_win_con(piece)
+winner = true
+(0..2).to_a.each do |column|
+    winner = false unless positions[column] == piece
+    2.times do
+    column += 3
+    winner = false unless positions[column] == piece
+    end
+    return true if winner == true
+    end
+winner
+end
 
-a = {a: "a"}
-
-p a.class
-p a.instance_of? Object 

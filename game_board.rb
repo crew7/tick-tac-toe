@@ -34,6 +34,7 @@ class GameBoard
   def check_row_win_con(piece)
     winner = true
     [0, 3, 6].each do |row|
+      winner = true
       winner = false unless positions[row] == piece
       2.times do
         row += 1
@@ -47,6 +48,7 @@ class GameBoard
   def check_column_win_con(piece)
     winner = true
     (0..2).to_a.each do |column|
+      winner = true # Had to be declared before, but also has to be declared beginning of each loop.
       winner = false unless positions[column] == piece
       2.times do
         column += 3
@@ -93,11 +95,20 @@ class GameBoard
 
     if target_location != 'x' && target_location != 'o'
       positions[requested_index] = requested_piece
-      return request_data if check_win_con(requested_piece)
+
+      tie = true
+      positions.each do |position| # Check if tie
+        if position != 'x' && position != 'o'
+          tie = false 
+        end
+      end
+      return 'tie' if tie == true
+
+      return request_data if check_win_con(requested_piece) # Check if someone won
 
       true
     else
-      refresh_board
+      refresh_board # Incorrect input, retry input
       puts "The target of #{requested_number} is already taken. Try again.\n\n"
       false
     end
