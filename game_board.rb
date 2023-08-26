@@ -78,6 +78,11 @@ class GameBoard
     puts "#{'-' * 4}+#{'-' * 3}+#{'-' * 4}"
   end
 
+  def reset_board
+    self.positions = (1..9).to_a
+    refresh_board
+  end
+
   def refresh_board
     screen_clear
     generate_latest_game_board
@@ -93,12 +98,12 @@ class GameBoard
     requested_index = request_data[:placement_request].to_i - 1
     target_location = positions[requested_index]
 
-    if target_location != 'x' && target_location != 'o'
+    if target_location != 'X' && target_location != 'O'
       positions[requested_index] = requested_piece
 
       tie = true
       positions.each do |position| # Check if tie
-        if position != 'x' && position != 'o'
+        if position != 'X' && position != 'O'
           tie = false 
         end
       end
