@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Creates, keeps track, and updates the game board
 class GameBoard
@@ -70,14 +70,6 @@ class GameBoard
     create_outer_row
   end
 
-  def create_outer_row
-    puts '-' * 13
-  end
-
-  def create_inner_row
-    puts "#{'-' * 4}+#{'-' * 3}+#{'-' * 4}"
-  end
-
   def reset_board
     self.positions = (1..9).to_a
     refresh_board
@@ -103,9 +95,7 @@ class GameBoard
 
       tie = true
       positions.each do |position| # Check if tie
-        if position != 'X' && position != 'O'
-          tie = false 
-        end
+        tie = false if position != 'X' && position != 'O'
       end
       return 'tie' if tie == true
 
@@ -120,6 +110,14 @@ class GameBoard
   end
 
   private
+
+  def create_outer_row
+    puts '-' * 13
+  end
+
+  def create_inner_row
+    puts "#{'-' * 4}+#{'-' * 3}+#{'-' * 4}"
+  end
 
   attr_accessor :positions
 end

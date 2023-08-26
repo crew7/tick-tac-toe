@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 require_relative 'game_board'
 require_relative 'player'
@@ -13,11 +13,10 @@ def play_again?
   puts "Would you like to play again? (y/n)\n\n"
   while true
     play_again = gets.chomp.downcase
-    if play_again == 'y' || play_again == 'n'
-      break
-    else
-      puts "\nYou didn't enter 'y' for yes, or 'n' for no. Please try again.\n\n"
-    end
+    break if %w[y n].include?(play_again)
+
+    puts "\nYou didn't enter 'y' for yes, or 'n' for no. Please try again.\n\n"
+
   end
   play_again == 'y'
 end
@@ -86,41 +85,40 @@ def reverse_choice_loop(player_one, player_two, game_board)
   end
 end
 
+game_board = create_game_board
+player_one_arr = create_player_one(game_board)
+player_one = player_one_arr[0]
+player_one_pii = player_one_arr[1]
+player_two = create_player_two(game_board, player_one_pii)
+
+first_choice_counter = 1 # This variable is so players alternate first choice to make the game fair.
+
 loop do
-  game_board = create_game_board
-  player_one_arr = create_player_one(game_board)
-  player_one = player_one_arr[0]
-  player_one_pii = player_one_arr[1]
-  player_two = create_player_two(game_board, player_one_pii)
+  if first_choice_counter.odd?
+    game_state = choice_loop(player_one, player_two, game_board)
+  elsif first_choice_counter.even?
+    game_state = reverse_choice_loop(player_one, player_two, game_board)
+  end
 
-  first_choice_counter = 1 # This variable is so players alternate first choice to make the game fair.
-  loop do
-    if first_choice_counter.odd?
-      game_state = choice_loop(player_one, player_two, game_board)
-    elsif first_choice_counter.even?
-      game_state = reverse_choice_loop(player_one, player_two, game_board)
+  if game_state.instance_of? Hash
+    game_board.refresh_board
+    puts "Congratuations #{game_state[:player_name]}! you have won."
+    if play_again?
+      first_choice_counter += 1
+      game_board.reset_board
+      redo
+    else
+      exit
     end
-
-    if game_state.instance_of? Hash
-      game_board.refresh_board
-      puts "Congratuations #{game_state[:player_name]}! you have won."
-      if play_again?
-        first_choice_counter += 1
-        game_board.reset_board
-        redo
-      else
-        exit
-      end
-    elsif game_state == 'tie'
-      game_board.refresh_board
-      puts 'Tie game, no winner.'
-      if play_again?
-        first_choice_counter += 1
-        game_board.reset_board
-        redo
-      else
-        exit
-      end
+  elsif game_state == 'tie'
+    game_board.refresh_board
+    puts 'Tie game, no winner.'
+    if play_again?
+      first_choice_counter += 1
+      game_board.reset_board
+      redo
+    else
+      exit
     end
   end
 end
